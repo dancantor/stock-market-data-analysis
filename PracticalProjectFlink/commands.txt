@@ -1,0 +1,14 @@
+docker-compose scale taskmanager=2
+
+docker cp target/average-price-window.jar jobmanager:/average-price-window.jar
+docker exec -it jobmanager flink run -c fd.AveragePriceWindowProcessor /average-price-window.jar
+
+docker cp target/trade-volume.jar jobmanager:/trade-volume.jar
+docker exec -it jobmanager flink run -c fd.TradeVolumesProcessor /trade-volume.jar
+
+docker cp target/market-impact.jar jobmanager:/market-impact.jar
+docker exec -it jobmanager flink run -c fd.MarketImpactProcessor /market-impact.jar
+
+
+docker exec -it jobmanager /bin/sh
+nc localhost 9997

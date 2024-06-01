@@ -1,0 +1,37 @@
+services:
+  socketservertradevolumes:
+    image: python:3.9-slim
+    container_name: socket-trade-volumes
+    command: python -u /code-container/trade_volumes.py
+    volumes:
+      - ./code:/code-container
+    ports:
+      - "9997:9997"
+    networks:
+      - shared_network
+
+  socketserverprice:
+    image: python:3.9-slim
+    container_name: socket-average-price
+    command: python -u /code-container/stock_prices.py
+    volumes:
+      - ./code:/code-container
+    ports:
+      - "9998:9998"
+    networks:
+      - shared_network
+
+  socketservermarketimpact:
+    image: python:3.9-slim
+    container_name: socket-market-impact
+    command: python -u /code-container/market_impact.py
+    volumes:
+      - ./code:/code-container
+    ports:
+      - "9999:9999"
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true
